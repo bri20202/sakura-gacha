@@ -20,6 +20,26 @@ app = FastAPI(
 )
 
 
+# ── Root ─────────────────────────────────────────────────
+@app.get("/", tags=["Root"])
+def root():
+    return {
+        "name": "Sakura Gacha API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "endpoints": {
+            "register": "POST /auth/register",
+            "login": "POST /auth/login",
+            "banners": "GET /banners",
+            "pull": "POST /banners/{id}/pull",
+            "pull_ten": "POST /banners/{id}/pull/ten",
+            "inventory": "GET /inventory",
+            "history": "GET /history",
+            "stats": "GET /stats",
+        },
+    }
+
+
 # ── Auth ─────────────────────────────────────────────────
 @app.post("/auth/register", response_model=UserResponse, status_code=201, tags=["Auth"])
 def register(body: UserCreate, db: Session = Depends(get_db)):
